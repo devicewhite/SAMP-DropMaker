@@ -3,18 +3,6 @@
 #endif
 #define _drop_system
 
-/*
-native Drop:CreateDrop(const text[], item, count, Float:x, Float:y, Float:z, time = 180);
-native DeleteDrop(Drop:dropid);
-native IsValidDrop(Drop:dropid);
-native GetDropItem(Drop:dropid);
-native GetDropText(Drop:dropid, dest[], len = sizeof dest);
-native SetDropText(Drop:dropid, const text[]);
-native GetDropCount(Drop:dropid);
-native GiveDropCount(Drop:dropid, count);
-native Drop:GetPlayerDropID(playerid);
-*/
-
 #include	<streamer>
 #include	<foreach>
 
@@ -140,6 +128,27 @@ stock bool:GiveDropCount(Drop:dropid, count)
 		if(!DropInfo[_:dropid][drop_count])
 			DeleteDrop(dropid);
 
+		return true;
+	}
+	return false;
+}
+
+stock bool:SetDropPos(Drop:dropid, Float:x, Float:y, Float:z)
+{
+	if(IsValidDrop(dropid))
+	{
+		Streamer_SetItemPos(STREAMER_TYPE_CP, DropInfo[_:dropid][drop_area], x, y, z);
+		Streamer_SetItemPos(STREAMER_TYPE_3D_TEXT_LABEL, DropInfo[_:dropid][drop_text], x, y, z);
+		return true;
+	}
+	return false;
+}
+
+stock bool:GetDropPos(Drop:dropid, &Float:x, &Float:y, &Float:z)
+{
+	if(IsValidDrop(dropid))
+	{
+		Streamer_GetItemPos(STREAMER_TYPE_CP, DropInfo[_:dropid][drop_area], x, y, z);
 		return true;
 	}
 	return false;

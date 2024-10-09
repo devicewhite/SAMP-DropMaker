@@ -10,6 +10,8 @@ native bool:GetDropText(Drop:dropid, dest[], len = sizeof dest);
 native bool:SetDropText(Drop:dropid, const text[]);
 native bool:GetDropCount(Drop:dropid, &count);
 native bool:GiveDropCount(Drop:dropid, count);
+native bool:SetDropPos(Drop:dropid, Float:x, Float:y, Float:z);
+native bool:GetDropPos(Drop:dropid, &Float:x, &Float:y, &Float:z);
 native Drop:GetPlayerDropID(playerid);
 
 forward OnPlayerAboveItemUpdate(playerid, Drop:dropid, bool:state);
