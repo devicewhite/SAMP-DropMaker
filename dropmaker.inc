@@ -3,8 +3,24 @@
 #endif
 #define _drop_system
 
+// ---------- INCLUDES
 #include	<streamer>
-#include	<foreach>
+
+#if !defined foreach
+	#tryinclude	<foreach>
+
+	#if !defined _FOREACH_LOCAL_VERSION
+		#tryinclude	<YSI_Data\y_iterate>
+	#endif
+
+	#if !defined _Y_ITERATE_LOCAL_VERSION
+		#tryinclude	<YSI-Includes\YSI_Data\y_iterate>
+	#endif
+
+	#if !defined _Y_ITERATE_LOCAL_VERSION
+		#error "Download the foreach include: https://github.com/Open-GTO/foreach"
+	#endif
+#endif
 
 // ----------- LIMITS
 #define MAX_DROPS		100
