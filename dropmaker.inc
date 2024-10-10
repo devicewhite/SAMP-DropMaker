@@ -17,7 +17,7 @@
 		#tryinclude	<YSI-Includes\YSI_Data\y_iterate>
 	#endif
 
-	#if !defined _Y_ITERATE_LOCAL_VERSION
+	#if !defined foreach
 		#error "Download the foreach include: https://github.com/Open-GTO/foreach"
 	#endif
 #endif
@@ -32,9 +32,6 @@
 	#define isempty(%1) \
 		(ispacked(%1) ? (%1{0} == EOS) : (%1[0] == EOS))
 #endif
-
-// ----------- CALLBACKS
-forward OnPlayerAboveItemUpdate(playerid, Drop:dropid, bool:state);
 
 // ----------- STRUCTURES
 enum DROP_INFO
@@ -75,6 +72,11 @@ stock Drop:CreateDrop(const text[], item, count, Float:x, Float:y, Float:z, time
 	return Drop:dropid;
 }
 
+stock bool:IsValidDrop(Drop:dropid)
+{
+	return bool:Iter_Contains(Drop, _:dropid);
+}
+
 stock bool:DeleteDrop(Drop:dropid)
 {
 	if(IsValidDrop(dropid))
@@ -87,11 +89,6 @@ stock bool:DeleteDrop(Drop:dropid)
 		return true;
 	}
 	return false;
-}
-
-stock bool:IsValidDrop(Drop:dropid)
-{
-	return bool:Iter_Contains(Drop, _:dropid);
 }
 
 stock bool:GetDropItem(Drop:dropid, &item)
@@ -197,9 +194,7 @@ public OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
 		if(checkpointid == DropInfo[_:dropid][drop_area])
 		{
 			PlayerDrop[playerid] = Drop:dropid;
-			#if defined OnPlayerAboveItemUpdate
-				OnPlayerAboveItemUpdate(playerid, Drop:dropid, true);
-			#endif
+			CallLocalFunction("OnPlayerAboveItem", "dd", playerid, dropid);
 			break;
 		}
 	}
@@ -224,10 +219,7 @@ public OnPlayerLeaveDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
 {
 	if(checkpointid == DropInfo[_:PlayerDrop[playerid]][drop_area])
 	{
-		#if defined OnPlayerAboveItemUpdate
-			OnPlayerAboveItemUpdate(playerid, dropid, false);
-		#endif
-		
+		CallLocalFunction("OnPlayerFarFromItem", "dd", playerid, _:PlayerDrop[playerid]);
 		PlayerDrop[playerid] = INVALID_DROP;
 	}
 
@@ -246,3 +238,7 @@ public OnPlayerLeaveDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
 #if defined Drop_LeaveCP
 	forward Drop_LeaveCP(playerid, STREAMER_TAG_CP:checkpointid);
 #endif
+
+// ----------- CALLBACKS
+forward OnPlayerAboveItem(playerid, Drop:dropid);
+forward OnPlayerFarFromItem(playerid, Drop:dropid);
