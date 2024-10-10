@@ -14,7 +14,8 @@ native bool:SetDropPos(Drop:dropid, Float:x, Float:y, Float:z);
 native bool:GetDropPos(Drop:dropid, &Float:x, &Float:y, &Float:z);
 native Drop:GetPlayerDropID(playerid);
 
-forward OnPlayerAboveItemUpdate(playerid, Drop:dropid, bool:state);
+forward OnPlayerAboveItem(playerid, Drop:dropid);
+forward OnPlayerFarFromItem(playerid, Drop:dropid);
 ```
 ```
 Permite criar "drops" com tempo de validade
