@@ -15,7 +15,7 @@ Esta include facilita a criação, manipulação e monitoramento de "Drops" em t
 
 ## Instalação
 
-1. Baixe o arquivo dropmaker.inc e adicione à sua pasta pawno/include/.
+1. Baixe o arquivo dropmaker.inc e adicione à sua pasta `pawno/include` ou `qawno/include` ou `/sdcard/Termux-Pawn`
 
 2. Em seu script principal (.pwn), inclua o arquivo:
 
