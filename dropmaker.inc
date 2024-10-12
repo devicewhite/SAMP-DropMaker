@@ -358,14 +358,14 @@ stock bool:IsPlayerInDropArea(playerid, Drop:dropid) {
 }
 
 #if defined DROPMAKER_USE_AREA
-stock bool:IsAnyPlayerInAnyDropArea(playerid) {
+stock bool:IsAnyPlayerInAnyDropArea() {
 	foreach(new drop : Drops) {
 		if(IsAnyPlayerInDynamicArea(DropMakerInfo[Drop:drop][drop_area])) return true;
 	}
 	return false;
 }
 
-stock bool:IsAnyPlayerInDropArea(playerid, Drop:dropid) {
+stock bool:IsAnyPlayerInDropArea(Drop:dropid) {
 	return bool:IsAnyPlayerInDynamicArea(DropMakerInfo[Drop:drop][drop_area]);
 }
 #endif
